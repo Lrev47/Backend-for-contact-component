@@ -6,7 +6,7 @@ const getAllMessages = async () => {
     const messages = await prisma.contactInfo.findMany();
     return messages;
   } catch (error) {
-    console.error("Failed to retrieve messages:", error);
+    console.error("Failed to retrieve messages:", error.message, error.stack);
     throw error;
   }
 };
@@ -21,7 +21,11 @@ const getMessageById = async (id) => {
     });
     return message;
   } catch (error) {
-    console.error("Failed to retrieve message by ID:", error);
+    console.error(
+      "Failed to retrieve message by ID:",
+      error.message,
+      error.stack
+    );
     throw error;
   }
 };
@@ -37,7 +41,7 @@ const createMessage = async (messageData) => {
     });
     return newMessage;
   } catch (error) {
-    console.error("Failed to create message:", error);
+    console.error("Failed to create message:", error.message, error.stack);
     throw error;
   }
 };
@@ -52,7 +56,7 @@ const deleteMessage = async (id) => {
     });
     return deletedMessage;
   } catch (error) {
-    console.error("Failed to delete message:", error);
+    console.error("Failed to delete message:", error.message, error.stack);
     throw error;
   }
 };
@@ -69,7 +73,11 @@ const getMessagesByStatus = async (status) => {
     });
     return messages;
   } catch (error) {
-    console.error("Failed to retrieve messages by status:", error);
+    console.error(
+      "Failed to retrieve messages by status:",
+      error.message,
+      error.stack
+    );
     throw error;
   }
 };
@@ -87,7 +95,11 @@ const updateMessageStatus = async (id, status) => {
     });
     return updatedMessage;
   } catch (error) {
-    console.error("Failed to update message status:", error);
+    console.error(
+      "Failed to update message status:",
+      error.message,
+      error.stack
+    );
     throw error;
   }
 };
