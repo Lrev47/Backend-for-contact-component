@@ -17,7 +17,7 @@ server.use(morgan("dev"));
 server.get("/", (req, res) => {
   res.send("Master your surroundings");
 });
-//get all Contact Messages
+server.use("/api", require("./API/index.js"));
 
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
