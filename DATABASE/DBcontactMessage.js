@@ -1,5 +1,5 @@
 const prisma = require("./client.js");
-console.log("Prisma instance:", prisma);
+// console.log("Prisma instance:", prisma);
 
 const getAllMessages = async () => {
   try {
@@ -13,9 +13,10 @@ const getAllMessages = async () => {
 
 const getMessageById = async (id) => {
   try {
+    const messageId = parseInt(id, 10);
     const message = await prisma.contactInfo.findUnique({
       where: {
-        id: parseInt(id),
+        id: messageId,
       },
     });
     return message;
@@ -24,6 +25,7 @@ const getMessageById = async (id) => {
     throw error;
   }
 };
+
 const createMessage = async (messageData) => {
   try {
     const newMessage = await prisma.contactInfo.create({
@@ -42,13 +44,50 @@ const createMessage = async (messageData) => {
 
 const deleteMessage = async (id) => {
   try {
+    const messageId = parseInt(id, 10);
     const deletedMessage = await prisma.contactInfo.delete({
       where: {
-        id: id,
+        id: messageId,
       },
     });
     return deletedMessage;
   } catch (error) {
+    console.error("Failed to delete message:", error);
+    throw error;
+  }
+};
+
+const getMessagesByStatus = async (status) => {
+  try {
+    const messages = await prisma.contactInfo.findMany({
+      where: {
+        status: status,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    return messages;
+  } catch (error) {
+    console.error("Failed to retrieve messages by status:", error);
+    throw error;
+  }
+};
+
+const updateMessageStatus = async (id, status) => {
+  try {
+    const messageId = parseInt(id, 10);
+    const updatedMessage = await prisma.contactInfo.update({
+      where: {
+        id: messageId,
+      },
+      data: {
+        status: status,
+      },
+    });
+    return updatedMessage;
+  } catch (error) {
+    console.error("Failed to update message status:", error);
     throw error;
   }
 };
@@ -58,4 +97,6 @@ module.exports = {
   getMessageById,
   createMessage,
   deleteMessage,
+  getMessagesByStatus,
+  updateMessageStatus,
 };
